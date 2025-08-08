@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Faculty Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Faculty Dashboard</h1>
+    <p>Welcome, {{ current_user.name }}!</p>
+    <p>Your Role: {{ current_user.role }}</p>
+    <p>This is where faculty will see pending and escalated cases.</p>
+    <a href="{{ url_for('auth.logout') }}">Logout</a>
+{% endblock %}
