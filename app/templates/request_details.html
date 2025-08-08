@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Request #{{ request.id }} Details{% endblock %}
+
+{% block content %}
+    <h2>Details for Request #{{ request.id }}</h2>
+    <div class="request-details-grid">
+        <div class="request-info">
+            <h3>Request Information</h3>
+            <p><strong>Submitted By:</strong> {{ request.author.name }} ({{ request.author.email }})</p>
+            <p><strong>Module:</strong> {{ request.module }}</p>
+            <p><strong>Type:</strong> {{ request.type }}</p>
+            <p><strong>Submitted On:</strong> {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p><strong>Current Status:</strong> <span class="status-badge status-{{ request.status | lower }}">{{ request.status }}</span></p>
+            <p><strong>Description:</strong></p>
+            <pre>{{ request.description }}</pre>
+        </div>
+
+        <div class="request-action">
+            <h3>Take Action</h3>
+            <form method="POST" action="{{ url_for('main.process_request_action', request_id=request.id) }}">
+                <div class="form-group">
+                    <label for="notes">Notes (Optional)</label>
+                    <textarea id="notes" name="notes" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="action-buttons">
+                    <button type="submit" name="action" value="Approve" class="btn btn-success">Approve</button>
+                    <button type="submit" name="action" value="Reject" class="btn btn-danger">Reject</button>
+                    <button type="submit" name="action" value="Forward" class="btn btn-secondary">Forward</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <h3>Audit History</h3>
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Action By</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in request.audit_logs | sort(attribute='timestamp', reverse=True) %}
+                <tr>
+                    <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ log.actor.name if log.actor else 'System' }}</td>
+                    <td>{{ log.role }}</td>
+                    <td>{{ log.action }}</td>
+                    <td>{{ log.notes }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

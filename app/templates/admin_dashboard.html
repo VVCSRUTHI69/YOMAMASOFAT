@@ -3,9 +3,16 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-    <h1>Admin Dashboard</h1>
-    <p>Welcome, {{ current_user.name }}!</p>
-    <p>Your Role: {{ current_user.role }}</p>
-    <p>This is where admin-specific content like user management and audit trail will go.</p>
-    <a href="{{ url_for('auth.logout') }}">Logout</a>
+    <div class="dashboard-header">
+        <h1>Admin Dashboard</h1>
+    </div>
+    <p>Welcome, {{ current_user.name }}. From here you can manage the entire application.</p>
+
+    <hr>
+
+    <h2>Admin Tools</h2>
+    <div class="admin-tools">
+        <a href="{{ url_for('main.manage_users') }}" class="btn btn-secondary">Manage Users</a>
+        <a href="{{ url_for('main.view_audit_trail') }}" class="btn btn-secondary">View Full Audit Trail</a>
+    </div>
 {% endblock %}

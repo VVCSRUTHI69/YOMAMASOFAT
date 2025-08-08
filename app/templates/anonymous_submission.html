@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Anonymous Submission{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Anonymous Suggestion / Complaint</h2>
+    <p>This form is for anonymous submissions. No personal information will be recorded. Your feedback will be routed to the appropriate committee for review.</p>
+    <form method="POST" action="{{ url_for('main.anonymous_submission') }}">
+        <div class="form-group">
+            <label for="module">Module to Address</label>
+            <select id="module" name="module" class="form-control" required>
+                <option value="General Feedback">General Feedback</option>
+                <option value="Exam">Exam</option>
+                <option value="Appeals">Appeals</option>
+                <option value="Help Desk">Help Desk</option>
+                <option value="Class Committee">Class Committee</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Suggestion / Complaint Details</label>
+            <textarea id="description" name="description" class="form-control" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Anonymously</button>
+    </form>
+</div>
+{% endblock %}

@@ -16,5 +16,8 @@
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
+    <div class="anonymous-link">
+        <p>Want to submit feedback anonymously? <a href="{{ url_for('main.anonymous_submission') }}">Click here</a>.</p>
+    </div>
 </div>
 {% endblock %}

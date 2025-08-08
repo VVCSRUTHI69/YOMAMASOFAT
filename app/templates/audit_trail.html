@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "_macros.html" import render_pagination %}
+
+{% block title %}Full Audit Trail{% endblock %}
+
+{% block content %}
+    <div class="dashboard-header">
+        <h1>Full Audit Trail</h1>
+    </div>
+    <p>This page shows every action that has been taken across all requests in the system.</p>
+
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>Log ID</th>
+                <th>Timestamp</th>
+                <th>Request ID</th>
+                <th>Action By</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in pagination.items %}
+                <tr>
+                    <td>{{ log.id }}</td>
+                    <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td><a href="{{ url_for('main.request_details', request_id=log.request_id) }}">{{ log.request_id }}</a></td>
+                    <td>{{ log.actor.name if log.actor else 'System' }}</td>
+                    <td>{{ log.role }}</td>
+                    <td>{{ log.action }}</td>
+                    <td>{{ log.notes }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {{ render_pagination(pagination, 'main.view_audit_trail') }}
+{% endblock %}

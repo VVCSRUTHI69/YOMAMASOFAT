@@ -3,9 +3,40 @@
 {% block title %}Faculty Dashboard{% endblock %}
 
 {% block content %}
-    <h1>Faculty Dashboard</h1>
-    <p>Welcome, {{ current_user.name }}!</p>
-    <p>Your Role: {{ current_user.role }}</p>
-    <p>This is where faculty will see pending and escalated cases.</p>
-    <a href="{{ url_for('auth.logout') }}">Logout</a>
+    <div class="dashboard-header">
+        <h1>{{ current_user.role }} Dashboard</h1>
+    </div>
+    <p>Welcome, {{ current_user.name }}. You have cases requiring your attention.</p>
+
+    <hr>
+
+    <h2>Pending Requests</h2>
+    {% if requests %}
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Submitted By</th>
+                    <th>Module</th>
+                    <th>Status</th>
+                    <th>Received On</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                    <tr>
+                        <td>{{ request.id }}</td>
+                        <td>{{ request.author.name }}</td>
+                        <td>{{ request.module }}</td>
+                        <td><span class="status-badge status-{{ request.status | lower }}">{{ request.status }}</span></td>
+                        <td>{{ request.updated_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td><a href="{{ url_for('main.request_details', request_id=request.id) }}">View Details</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no pending requests at the moment.</p>
+    {% endif %}
 {% endblock %}

@@ -3,9 +3,39 @@
 {% block title %}Student Dashboard{% endblock %}
 
 {% block content %}
-    <h1>Student Dashboard</h1>
-    <p>Welcome, {{ current_user.name }}!</p>
-    <p>Your Role: {{ current_user.role }}</p>
-    <p>This is where students can submit requests and track their status.</p>
-    <a href="{{ url_for('auth.logout') }}">Logout</a>
+    <div class="dashboard-header">
+        <h1>Student Dashboard</h1>
+        <a href="{{ url_for('main.create_request') }}" class="btn btn-primary">Submit New Request</a>
+    </div>
+    <p>Welcome, {{ current_user.name }}! Here you can manage your grievances and requests.</p>
+
+    <hr>
+
+    <h2>My Requests</h2>
+    {% if requests %}
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Module</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Submitted On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                    <tr>
+                        <td>{{ request.id }}</td>
+                        <td>{{ request.module }}</td>
+                        <td>{{ request.type }}</td>
+                        <td><span class="status-badge status-{{ request.status | lower }}">{{ request.status }}</span></td>
+                        <td>{{ request.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have not submitted any requests yet.</p>
+    {% endif %}
 {% endblock %}

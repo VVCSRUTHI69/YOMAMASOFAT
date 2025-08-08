@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Users{% endblock %}
+
+{% block content %}
+    <div class="dashboard-header">
+        <h1>Manage Users</h1>
+        <a href="#" class="btn btn-primary">Add New User</a> {# Will link to add user form later #}
+    </div>
+
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <a href="#">Edit</a> | {# Will link to edit user form later #}
+                        <a href="#" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a> {# Will link to delete user action later #}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
